@@ -1,7 +1,7 @@
 
-const { Sequelize, DataTypes } = require('sequelize');
-const { dbDetails } = require('../config/dbconfig.js');
+const { Sequelize, DataTypes } = require('sequelize'); 
 
+const { dbDetails } = require('../config/dbconfig.js');
 
 const sequelize = new Sequelize(
     dbDetails.database,
@@ -9,10 +9,14 @@ const sequelize = new Sequelize(
     dbDetails.password, {
     host: dbDetails.host,
     dialect: dbDetails.dialect,
-    operatorsAliases: false,
+    pool: {
+        max: dbDetails.pool.max,
+        min: dbDetails.pool.min,
+        acquire: dbDetails.pool.acquire,
+        idle: dbDetails.pool.idle
+    }
 }
 )
-
 sequelize.authenticate()
     .then(() => {
         console.log('connected..')

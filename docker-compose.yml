@@ -1,0 +1,24 @@
+services:
+  flashcard-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tests
+    expose:
+      - 3307
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_mysql:/var/lib/mysql
+
+volumes:
+  db_mysql:
